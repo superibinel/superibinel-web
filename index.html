@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es" class="antialiased">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SuperIbinel - Tu supermercado online</title>
+    <meta name="description" content="Productos frescos y de calidad directo a tu hogar">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #f9fafb;
+            color: #111827;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+            border-bottom: 1px solid #e5e7eb;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            height: 4rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 1.5rem;
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(to right, #dc2626, #2563eb);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: #111827;
+        }
+
+        .nav {
+            display: none;
+            align-items: center;
+            margin-right: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+        }
+
+        .nav a {
+            margin-right: 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: #dc2626;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 28rem;
+            margin: 0 1.5rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            height: 2.25rem;
+            padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: transparent;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 1px #2563eb;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            color: #6b7280;
+        }
+
+        .cart-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cart-btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #1e40af 100%);
+            color: white;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-content {
+            position: relative;
+            padding: 5rem 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-text h1 {
+                font-size: 3.75rem;
+            }
+        }
+
+        .hero-text .highlight {
+            display: block;
+            color: #fbbf24;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: #fecaca;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-text p {
+                font-size: 1.5rem;
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 640px) {
+            .hero-buttons {
+                flex-direction: row;
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 2rem;
+            font-weight: 600;
+            font-size: 1.125rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #dc2626;
+        }
+
+        .btn-primary:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #dc2626;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #fecaca;
+            font-size: 0.875rem;
+        }
+
+        /* Offer Card */
+        .offer-container {
+            position: relative;
+        }
+
+        .offer-card {
+            position: relative;
+            z-index: 10;
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: rotate(3deg);
+            transition: transform 0.3s;
+            color: #111827;
+        }
+
+        .offer-card:hover {
+            transform: rotate(0deg);
+        }
+
+        .offer-card-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #ef4444, #f97316);
+            border-radius: 1rem;
+            transform: rotate(-6deg);
+            opacity: 0.3;
+        }
+
+        .offer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .offer-title {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: #111827;
+        }
+
+        .offer-badge {
+            background: #ef4444;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .offer-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .offer-products {
+            margin-bottom: 1rem;
+        }
+
+        .offer-product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25rem 0;
+        }
+
+        .offer-product-name {
+            color: #6b7280;
+        }
+
+        .offer-product-price {
+            font-weight: 600;
+        }
+
+        .offer-footer {
+            border-top: 1px solid #e5e7eb;
+            padding-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .offer-savings {
+            color: #dc2626;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .offer-total {
+            text-align: right;
+        }
+
+        .offer-total-amount {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: #059669;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .feature-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .feature-icon.red { background: #fef2f2; color: #dc2626; }
+        .feature-icon.blue { background: #eff6ff; color: #2563eb; }
+        .feature-icon.green { background: #f0fdf4; color: #059669; }
+        .feature-icon.yellow { background: #fffbeb; color: #d97706; }
+
+        .feature h3 {
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 4rem 0;
+            background: #f9fafb;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+
+        @media (min-width: 1024px) {
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        .section-description {
+            font-size: 1.25rem;
+            color: #6b7280;
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .category-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+
+        .category-image {
+            position: relative;
+            height: 12rem;
+            overflow: hidden;
+        }
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .category-card:hover .category-image img {
+            transform: scale(1.1);
+        }
+
+        .category-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent, transparent);
+        }
+
+        .category-content {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-info h3 {
+            color: white;
+            font-weight: bold;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .category-info p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+
+        .category-icon {
+            width: 3rem;
+            height: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .category-footer {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-link {
+            color: #2563eb;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .category-card:hover .category-link {
+            color: #dc2626;
+        }
+
+        .category-arrow {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: #2563eb;
+            transition: all 0.2s;
+        }
+
+        .category-card:hover .category-arrow {
+            color: #dc2626;
+            transform: translateX(0.25rem);
+        }
+
+        /* Products Section */
+        .products {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #f97316;
+            color: white;
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-pricing {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .current-price {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #dc2626;
+        }
+
+        .product-unit {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-to-cart:hover {
+            background: #1d4ed8;
+        }
+
+        .add-to-cart:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+        }
+
+        .view-all-btn {
+            text-align: center;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 0;
+            background: linear-gradient(to right, #2563eb, #dc2626);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+            color: #bfdbfe;
+        }
+
+        /* Footer */
+        .footer {
+            background: #111827;
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(to right, #dc2626, #2563eb);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+        }
+
+        .footer-logo-text {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .footer-description {
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🛒</div>
+                    <span class="logo-text">SuperIbinel</span>
+                </div>
+
+                <nav class="nav">
+                    <a href="#">Inicio</a>
+                    <a href="#">Ofertas</a>
+                    <a href="#">Categorías</a>
+                </nav>
+
+                <div class="search-container">
+                    <form>
+                        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input class="search-input" placeholder="Buscar productos..." type="text">
+                    </form>
+                </div>
+
+                <button class="cart-btn">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5.5M7 13l2.5 5.5M16 13l2.5 5.5M9 19.5a1.5 1.5 0 003 0m6 0a1.5 1.5 0 003 0"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-grid">
+                    <div class="hero-text">
+                        <h1>
+                            Tu Supermercado
+                            <span class="highlight">Online</span>
+                        </h1>
+                        <p>
+                            Productos frescos y de calidad directo a tu hogar.
+                            <span style="display: block; font-weight: 600;">¡Compra fácil, rápido y seguro!</span>
+                        </p>
+
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary">
+                                <span style="margin-right: 0.5rem;">🛒</span>
+                                Comprar Ahora
+                            </button>
+                            <button class="btn btn-secondary">Ver Ofertas</button>
+                        </div>
+
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-value">2-4h</div>
+                                <div class="stat-label">Entrega</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">+1000</div>
+                                <div class="stat-label">Productos</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">★4.8</div>
+                                <div class="stat-label">Valoración</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="offer-container">
+                        <div class="offer-card">
+                            <div class="offer-header">
+                                <h3 class="offer-title">¡Combo Asado Uruguayo!</h3>
+                                <span class="offer-badge">¡Oferta del Día!</span>
+                            </div>
+
+                            <p class="offer-description">Todo lo que necesitas para un asado perfecto</p>
+
+                            <div class="offer-products">
+                                <div class="offer-product">
+                                    <span class="offer-product-name">Churrasco</span>
+                                    <span class="offer-product-price">U$720</span>
+                                </div>
+                                <div class="offer-product">
+                                    <span class="offer-product-name">Manzanas Rojas</span>
+                                    <span class="offer-product-price">U$140</span>
+                                </div>
+                                <div class="offer-product">
+                                    <span class="offer-product-name">Pan Integral</span>
+                                    <span class="offer-product-price">U$96</span>
+                                </div>
+                            </div>
+
+                            <div class="offer-footer">
+                                <span class="offer-savings">¡Ahorrás U$96!</span>
+                                <div class="offer-total">
+                                    <span class="offer-total-amount">Total: U$860</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offer-card-bg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon red">🚚</div>
+                    <h3>Envío Gratis</h3>
+                    <p>En pedidos superiores a U$50</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon blue">🕐</div>
+                    <h3>Entrega Rápida</h3>
+                    <p>En 2-4 horas a tu domicilio</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon green">🛡️</div>
+                    <h3>Garantía de Frescura</h3>
+                    <p>Productos frescos garantizados</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon yellow">⭐</div>
+                    <h3>Mejor Calidad</h3>
+                    <p>Productos seleccionados</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explora Nuestros Rubros</h2>
+                <p class="section-description">
+                    Todo lo que necesitas para tu hogar, organizado en categorías para tu comodidad
+                </p>
+            </div>
+
+            <div class="categories-grid">
+                <a href="#" class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400" alt="Almacén">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-info">
+                                <h3>Almacén</h3>
+                                <p>Productos secos y enlatados</p>
+                            </div>
+                            <div class="category-icon">🥫</div>
+                        </div>
+                    </div>
+                    <div class="category-footer">
+                        <span class="category-link">Ver productos</span>
+                        <svg class="category-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400" alt="Carnicería">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-info">
+                                <h3>Carnicería</h3>
+                                <p>Carnes frescas y embutidos</p>
+                            </div>
+                            <div class="category-icon">🥩</div>
+                        </div>
+                    </div>
+                    <div class="category-footer">
+                        <span class="category-link">Ver productos</span>
+                        <svg class="category-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400" alt="Verdulería">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-info">
+                                <h3>Verdulería</h3>
+                                <p>Frutas y verduras del día</p>
+                            </div>
+                            <div class="category-icon">🥬</div>
+                        </div>
+                    </div>
+                    <div class="category-footer">
+                        <span class="category-link">Ver productos</span>
+                        <svg class="category-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400" alt="Fiambrería">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-info">
+                                <h3>Fiambrería</h3>
+                                <p>Quesos y lácteos frescos</p>
+                            </div>
+                            <div class="category-icon">🧀</div>
+                        </div>
+                    </div>
+                    <div class="category-footer">
+                        <span class="category-link">Ver productos</span>
+                        <svg class="category-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400" alt="Limpieza e Higiene">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-info">
+                                <h3>Limpieza e Higiene</h3>
+                                <p>Productos de limpieza</p>
+                            </div>
+                            <div class="category-icon">🧽</div>
+                        </div>
+                    </div>
+                    <div class="category-footer">
+                        <span class="category-link">Ver productos</span>
+                        <svg class="category-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </a>
+
+                <a href="#" class="category-card">
+                    <div class="category-image">
+                        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400" alt="Bazar">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <div class="category-info">
+                                <h3>Bazar</h3>
+                                <p>Artículos para el hogar</p>
+                            </div>
+                            <div class="category-icon">🏠</div>
+                        </div>
+                    </div>
+                    <div class="category-footer">
+                        <span class="category-link">Ver productos</span>
+                        <svg class="category-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Productos Destacados</h2>
+                <p class="section-description">Los más vendidos de la semana</p>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400" alt="Arroz Largo Fino">
+                        <span class="product-badge">Destacado</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Arroz Largo Fino</h3>
+                        <p class="product-description">Arroz largo fino de primera calidad, bolsa de 1kg.</p>
+                        <div class="product-pricing">
+                            <div class="product-price">
+                                <span class="current-price">U$112.00</span>
+                                <span class="product-unit">por kg</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart">
+                            <span style="margin-right: 0.5rem;">+</span>
+                            Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400" alt="Carne Picada">
+                        <span class="product-badge">Destacado</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Carne Picada</h3>
+                        <p class="product-description">Carne picada especial, fresca del día.</p>
+                        <div class="product-pricing">
+                            <div class="product-price">
+                                <span class="current-price">U$516.00</span>
+                                <span class="product-unit">por kg</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart">
+                            <span style="margin-right: 0.5rem;">+</span>
+                            Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400" alt="Manzanas Rojas">
+                        <span class="product-badge">Destacado</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Manzanas Rojas</h3>
+                        <p class="product-description">Manzanas rojas frescas y crujientes.</p>
+                        <div class="product-pricing">
+                            <div class="product-price">
+                                <span class="current-price">U$140.00</span>
+                                <span class="product-unit">por kg</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart">
+                            <span style="margin-right: 0.5rem;">+</span>
+                            Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1549388604-817d15aa0918?w=400" alt="Jamón Cocido">
+                        <span class="product-badge">Destacado</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Jamón Cocido</h3>
+                        <p class="product-description">Jamón cocido de primera calidad.</p>
+                        <div class="product-pricing">
+                            <div class="product-price">
+                                <span class="current-price">U$356.00</span>
+                                <span class="product-unit">por kg</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart">
+                            <span style="margin-right: 0.5rem;">+</span>
+                            Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-all-btn">
+                <button class="btn" style="border: 1px solid #dc2626; color: #dc2626; background: transparent;">
+                    Ver Todos los Productos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2>¿Listo para tu primera compra?</h2>
+            <p>Únete a miles de familias que ya confían en SuperIbinel para sus compras diarias</p>
+            <button class="btn btn-primary">Empezar a Comprar</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">🛒</div>
+                        <span class="footer-logo-text">SuperIbinel</span>
+                    </div>
+                    <p class="footer-description">
+                        Tu supermercado online de confianza. Calidad, frescura y comodidad en cada pedido.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Categorías</h3>
+                    <ul>
+                        <li><a href="#">Almacén</a></li>
+                        <li><a href="#">Carnicería</a></li>
+                        <li><a href="#">Verdulería</a></li>
+                        <li><a href="#">Fiambrería</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Atención al Cliente</h3>
+                    <ul>
+                        <li>Lun a Vie: 8:00 - 22:00</li>
+                        <li>Sáb: 9:00 - 21:00</li>
+                        <li>Dom: 10:00 - 20:00</li>
+                        <li style="display: flex; align-items: center; padding-top: 0.5rem;">
+                            📞 +34 900 123 456
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Información</h3>
+                    <ul>
+                        <li><a href="#">Sobre Nosotros</a></li>
+                        <li><a href="#">Envíos y Devoluciones</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 SuperIbinel. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
